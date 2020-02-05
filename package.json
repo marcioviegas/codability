@@ -1,0 +1,15 @@
+{
+  "name": "codability",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@octokit/rest": "^16.43.1",
+    "octokit": "^1.0.0-hello-world"
+  }
+}
