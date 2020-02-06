@@ -10,6 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "@octokit/rest": "^16.43.1",
+    "@types/gitlab": "^2.0.0",
+    "canvas": "^2.6.1",
+    "chartjs": "^0.3.24",
+    "gitlab": "^14.2.2",
     "octokit": "^1.0.0-hello-world"
   }
 }
