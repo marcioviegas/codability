@@ -1,7 +1,7 @@
 import App from "./App";
 import { SERVER_PORT } from "./config";
-import ProjectController from "./controller/ProjectController";
+import PullRequestController from "./controller/PullRequestController";
 
-const app = new App(SERVER_PORT, [new ProjectController()]);
+const app = new App(SERVER_PORT, [new PullRequestController()]);
 
 app.listen();

@@ -2,15 +2,15 @@ import GitLabClient from "../gitlab_client";
 import { Gitlab } from "gitlab";
 import { Events, Event } from "../model/Event";
 
-class MergeRequestApi {
+export default class MergeRequestApi {
   client: Gitlab;
 
   constructor() {
     this.client = GitLabClient;
   }
 
-  async getMergeRequest(
-    projectId: number,
+  public async getMergeRequest(
+    projectId: string,
     mergeRequestId: number
   ): Promise<Events> {
     const mergeRequest: any = await this.client.MergeRequests.show(
@@ -59,5 +59,3 @@ class MergeRequestApi {
     return events;
   }
 }
-
-export default MergeRequestApi;
