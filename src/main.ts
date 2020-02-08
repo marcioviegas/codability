@@ -7,7 +7,7 @@ async function main() {
     83
   );
 
-  console.log(events.getOrderedEvents());
+  console.log(events.getEvents());
 }
 
 main();

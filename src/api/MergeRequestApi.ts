@@ -1,6 +1,6 @@
 import GitLabClient from "../gitlab_client";
 import { Gitlab } from "gitlab";
-import { Events, IEvent } from "../model/Event";
+import { Events, Event } from "../model/Event";
 
 class MergeRequestApi {
   client: Gitlab;
@@ -19,11 +19,13 @@ class MergeRequestApi {
     );
 
     const events: Events = new Events([
-      {
-        date: mergeRequest.created_at,
-        author: mergeRequest.author.username,
-        etype: "MERGE_REQUEST"
-      }
+      new Event(
+        mergeRequest.created_at,
+        mergeRequest.author.username,
+        "MERGE_REQUEST",
+        mergeRequest.title,
+        mergeRequest.description
+      )
     ]);
 
     const notes: any = await this.client.MergeRequestNotes.all(
@@ -33,11 +35,7 @@ class MergeRequestApi {
 
     events.addAll(
       notes.map(n => {
-        return {
-          date: n.created_at,
-          author: n.author.username,
-          etype: "NOTE"
-        };
+        return new Event(n.created_at, n.author.username, n.body, "NOTE");
       })
     );
 
@@ -48,11 +46,13 @@ class MergeRequestApi {
 
     events.addAll(
       commits.map(n => {
-        return {
-          date: n.created_at,
-          author: n.author_email,
-          etype: "COMMIT"
-        };
+        return new Event(
+          n.created_at,
+          n.author_email,
+          n.title,
+          n.message,
+          "COMMIT"
+        );
       })
     );
 
