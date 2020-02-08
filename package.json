@@ -1,0 +1,29 @@
+{
+  "name": "codability",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcioviegas/codability.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcioviegas/codability/issues"
+  },
+  "homepage": "https://github.com/marcioviegas/codability#readme",
+  "dependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/node": "^13.7.0",
+    "dotenv": "^8.2.0",
+    "gitlab": "^14.2.2",
+    "loadash": "^1.0.0",
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {
+    "ts-node": "^8.6.2"
+  }
+}

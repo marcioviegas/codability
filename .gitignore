@@ -3,3 +3,5 @@ spikes/merge**.json
 spikes/notes**.json
 spikes/bs.json
 spikes/branch**.json
+.env
+index.js
