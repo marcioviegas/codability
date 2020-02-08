@@ -41,6 +41,21 @@ class MergeRequestApi {
       })
     );
 
+    const commits: any = await this.client.MergeRequests.commits(
+      projectId,
+      mergeRequestId
+    );
+
+    events.addAll(
+      commits.map(n => {
+        return {
+          date: n.created_at,
+          author: n.author_email,
+          etype: "COMMIT"
+        };
+      })
+    );
+
     return events;
   }
 }

@@ -9,10 +9,17 @@ export class Events {
   add(event: IEvent): void {
     this.events.push(event);
   }
+  getOrderedEvents() {
+    return this.events.sort((e1, e2) => {
+      return Date.parse(e1.date) - Date.parse(e2.date);
+    });
+  }
 }
 
 export interface IEvent {
   date: string;
   author: string;
   etype: string;
+  title?: string;
+  description?: string;
 }
