@@ -1,5 +1,5 @@
 node_modules
-merge**.json
-notes**.json
-bs.json
-branch**.json
+spikes/merge**.json
+spikes/notes**.json
+spikes/bs.json
+spikes/branch**.json
