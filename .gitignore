@@ -5,3 +5,4 @@ spikes/bs.json
 spikes/branch**.json
 .env
 index.js
+dist

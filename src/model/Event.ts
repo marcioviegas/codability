@@ -1,6 +1,6 @@
 export class Events {
   private events: Array<Event>;
-  constructor(events?: Array<Event>) {
+  constructor(events: Array<Event>) {
     this.events = events;
   }
   addAll(events: Array<Event>): void {
