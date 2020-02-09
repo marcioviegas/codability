@@ -1,6 +1,7 @@
 import GitLabClient from "../gitlab_client";
 import { Gitlab } from "gitlab";
 import { Events, Event } from "../model/Event";
+import PullRequest from "../model/PullRequest";
 
 export default class MergeRequestApi {
   client: Gitlab;
@@ -12,7 +13,7 @@ export default class MergeRequestApi {
   public async getMergeRequest(
     projectId: string,
     mergeRequestId: number
-  ): Promise<Events> {
+  ): Promise<PullRequest> {
     const mergeRequest: any = await this.client.MergeRequests.show(
       projectId,
       mergeRequestId
@@ -35,7 +36,13 @@ export default class MergeRequestApi {
 
     events.addAll(
       notes.map(n => {
-        return new Event(n.created_at, n.author.username, n.body, "NOTE");
+        return new Event(
+          n.created_at,
+          n.author.username,
+          "NOTE",
+          "NO_TITLE",
+          n.body
+        );
       })
     );
 
@@ -49,13 +56,20 @@ export default class MergeRequestApi {
         return new Event(
           n.created_at,
           n.author_email,
+          "COMMIT",
           n.title,
-          n.message,
-          "COMMIT"
+          n.message
         );
       })
     );
 
-    return events;
+    return new PullRequest(
+      mergeRequest.created_at,
+      mergeRequest.author.username,
+      mergeRequest.state,
+      mergeRequest.targed_branch,
+      mergeRequest.source_branch,
+      events
+    );
   }
 }

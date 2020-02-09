@@ -13,10 +13,10 @@ export default class PullRequestController extends Controller {
   }
 
   private async get(req: Request, res: Response) {
-    const events = await PullRequestController.mrApi.getMergeRequest(
+    const PR = await PullRequestController.mrApi.getMergeRequest(
       req.params.projectId,
       Number.parseInt(req.params.pullRequestId)
     );
-    res.send(events);
+    res.send(PR);
   }
 }

@@ -9,7 +9,7 @@ export class Events {
   add(event: Event): void {
     this.events.push(event);
   }
-  getEvents() {
+  getEvents(): Array<Event> {
     return this.events.sort((e1, e2) => {
       return e1.date.getTime() - e2.date.getTime();
     });
