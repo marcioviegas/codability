@@ -1,6 +1,8 @@
 import { Controller } from "./controller/Controller";
 import express from "express";
 import { Server } from "http";
+
+const cors = require("cors");
 const bodyParser = require("body-parser");
 
 export default class App {
@@ -12,6 +14,7 @@ export default class App {
     this.port = port;
 
     this.app = express();
+    this.app.use(cors());
     this.app.use(bodyParser.json());
 
     this.initControllers(controllers || []);
