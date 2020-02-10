@@ -102,6 +102,5 @@ export class PullRequest implements IEvent, IAuthored {
     this.events.sort((e1, e2) => {
       return e1.date.getTime() - e2.date.getTime();
     });
-    console.log(this.events);
   }
 }

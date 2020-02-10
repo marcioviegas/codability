@@ -54,7 +54,6 @@ export default class MergeRequestApi {
       })
     );
 
-    console.log(pullRequest);
     return pullRequest;
   }
 }
