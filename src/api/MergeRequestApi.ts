@@ -1,7 +1,6 @@
 import GitLabClient from "../gitlab_client";
 import { Gitlab } from "gitlab";
-import { Events, Event } from "../model/Event";
-import PullRequest from "../model/PullRequest";
+import { PullRequest, Commit, Discussion, Note } from "../model/PullRequest";
 
 export default class MergeRequestApi {
   client: Gitlab;
@@ -19,29 +18,27 @@ export default class MergeRequestApi {
       mergeRequestId
     );
 
-    const events: Events = new Events([
-      new Event(
-        mergeRequest.created_at,
-        mergeRequest.author.username,
-        "MERGE_REQUEST",
-        mergeRequest.title,
-        mergeRequest.description
-      )
-    ]);
+    const pullRequest: PullRequest = new PullRequest(
+      mergeRequest.created_at,
+      mergeRequest.author.username,
+      mergeRequest.state,
+      mergeRequest.targed_branch,
+      mergeRequest.source_branch,
+      mergeRequest.title,
+      mergeRequest.description
+    );
 
-    const notes: any = await this.client.MergeRequestNotes.all(
+    const discussions: any = await this.client.MergeRequestDiscussions.all(
       projectId,
       mergeRequestId
     );
 
-    events.addAll(
-      notes.map(n => {
-        return new Event(
-          n.created_at,
-          n.author.username,
-          "NOTE",
-          "NO_TITLE",
-          n.body
+    pullRequest.addEvents(
+      discussions.map(d => {
+        return new Discussion(
+          d.notes.map(n => {
+            return new Note(n.created_at, n.author.username, n.body, n.system);
+          })
         );
       })
     );
@@ -51,25 +48,13 @@ export default class MergeRequestApi {
       mergeRequestId
     );
 
-    events.addAll(
-      commits.map(n => {
-        return new Event(
-          n.created_at,
-          n.author_email,
-          "COMMIT",
-          n.title,
-          n.message
-        );
+    pullRequest.addEvents(
+      commits.map(c => {
+        return new Commit(c.created_at, c.commiter_name, c.message);
       })
     );
 
-    return new PullRequest(
-      mergeRequest.created_at,
-      mergeRequest.author.username,
-      mergeRequest.state,
-      mergeRequest.targed_branch,
-      mergeRequest.source_branch,
-      events
-    );
+    console.log(pullRequest);
+    return pullRequest;
   }
 }
