@@ -68,6 +68,7 @@ export class Commit implements IEvent, IAuthored {
 export class PullRequest implements IEvent, IAuthored {
   public date: Date;
   public author: string;
+  public id: number;
   public type = EventType.pullrequest;
 
   public events: Array<IEvent> = [];
@@ -79,6 +80,7 @@ export class PullRequest implements IEvent, IAuthored {
   public description: string;
 
   constructor(
+    id: string,
     date: string,
     author: string,
     status: string,
@@ -87,6 +89,7 @@ export class PullRequest implements IEvent, IAuthored {
     title: string,
     description: string
   ) {
+    this.id = Number.parseInt(id);
     this.date = new Date(date);
     this.author = author;
 
