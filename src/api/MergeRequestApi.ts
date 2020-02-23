@@ -32,6 +32,8 @@ export default class MergeRequestApi {
           return m2.date.getTime() - m1.date.getTime();
         });
 
+      console.log("returned");
+
       return mappedMergeRequests;
     } catch (e) {
       console.log(e);
@@ -90,6 +92,8 @@ export default class MergeRequestApi {
           return new Commit(c.created_at, c.commiter_name, c.message);
         })
       );
+
+      console.log(pullRequest);
 
       return pullRequest;
     } catch (e) {

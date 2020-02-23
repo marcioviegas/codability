@@ -1,3 +1,5 @@
+import { formatDistanceStrict } from "date-fns";
+
 export enum EventType {
   commit,
   pullrequest,
@@ -8,6 +10,9 @@ export enum EventType {
 export interface IEvent {
   date: Date;
   type: EventType;
+
+  distanceFromOlderEvent?: string;
+  distanceFromToday?: string;
 }
 
 export interface IAuthored {
@@ -79,6 +84,9 @@ export class PullRequest implements IEvent, IAuthored {
   public title: string;
   public description: string;
 
+  public distanceFromToday: string;
+  public lastUpdated: string;
+
   constructor(
     id: string,
     date: string,
@@ -98,12 +106,38 @@ export class PullRequest implements IEvent, IAuthored {
     this.source_branch = source_branch;
     this.title = title;
     this.description = description;
+
+    this.distanceFromToday = formatDistanceStrict(
+      this.date,
+      new Date(Date.now())
+    );
+
+    this.lastUpdated = formatDistanceStrict(this.date, new Date(Date.now()));
   }
 
+  // This is the worse and easiest algorightm I've came up with
+  // Good enought for now
   addEvents(events: Array<IEvent>) {
     this.events = [...this.events, ...events];
-    this.events.sort((e1, e2) => {
+
+    this.events = this.events.sort((e1, e2) => {
       return e1.date.getTime() - e2.date.getTime();
     });
+
+    this.events = this.events.map((e, index) => {
+      return {
+        ...e,
+        distanceFromToday: formatDistanceStrict(e.date, new Date(Date.now())),
+        distanceFromOlderEvent:
+          index === 0
+            ? formatDistanceStrict(e.date, new Date(Date.now()))
+            : formatDistanceStrict(e.date, this.events[index - 1].date)
+      };
+    });
+
+    this.lastUpdated = formatDistanceStrict(
+      this.events[this.events.length - 1].date,
+      new Date(Date.now())
+    );
   }
 }
